@@ -80,4 +80,43 @@ public class ListApiServiceTest {
         service.getListMeetings().remove(meetingToRemove);
         Assert.assertFalse(service.getListMeetings().contains(meetingToRemove));
     }
+     @Test
+    public void findByNameWhenExist() throws EmployeeNotFound {
+        Employee toFind = service.getListEmployees().get(1);
+        Assert.assertEquals(toFind, service.findByName(toFind.getName()));
+    }
+
+    @Test
+    public void findByNameWhenNotExist(){
+        try{
+            service.findByName("Pierre");
+            Assert.fail("L'utilisateur existe");
+        }catch (EmployeeNotFound e){
+            Assert.assertNotNull(e);
+        }
+    }
+
+    @Test
+    public void removeMeeting() {
+        // Get first Meeting from list
+        Meeting meetingToRemove = service.getListMeetings().get(0);
+        service.removeMeeting(meetingToRemove);
+        Assert.assertFalse(service.getListMeetings().contains(meetingToRemove));
+    }
+
+    @Test
+    public void findByObjectWhenMeetingExist() throws MeetingNotFound {
+        Meeting meetingToFind = service.getListMeetings().get(0);
+        Assert.assertEquals(meetingToFind, service.findByObject(meetingToFind.getObjectMeeting()));
+    }
+
+    @Test
+    public void findByObjectWhenMeetingNotExist() {
+        try {
+            service.findByObject("meeting2");
+            Assert.fail("le meeting existe");
+        } catch (MeetingNotFound meetingNotFound) {
+            Assert.assertNotNull(meetingNotFound);
+        }
+    }
 }
